@@ -31,11 +31,25 @@ class CoursesController extends Controller
     public function detail($id){
 
         $data = Courses::find($id);
-        $seatNumbers = Enrollment::where('course_id' , $id)->get();
-        $enroll = Enrollment::where('course_id' , $id)->count();
-        $availableSeats = 20 - $enroll;
-    
-        return view('course.detail', ['details' => $data , 'availableSeats' => $availableSeats , 'seatNumbers' => $seatNumbers]);
+        $enrolledSeatNumbers = Enrollment::where('course_id' , $id)->get();
+        $enrolled = $enrolledSeatNumbers->count();
+        $availableSeats = 20 - $enrolled;
+            if(auth()->check()){
+                $isEnrolled = Enrollment::where('course_id' , $id )
+                ->where('user_id' , auth()->user()->id)->exists();
+                
+                
+            
+            }else{
+                $isEnrolled =false ;
+            }
+
+            return view('course.detail', ['details' => $data , 'availableSeats' => $availableSeats , 'enrolledSeatNumbers' => $enrolledSeatNumbers,'isEnrolled' => $isEnrolled]);
+       
+             
+        
+
+        
     }
 
     public function enroll($courseId){
@@ -49,8 +63,7 @@ class CoursesController extends Controller
         }
         $seatValue = request()->input('seat');
         $courseTitle = Courses::find($courseId);
-
-       
+                         
         return view('course.enroll' , ['courseId' => $courseId,'courseTitle' => $courseTitle, 'seatValue'=> $seatValue]);
     }
     public function submit(){

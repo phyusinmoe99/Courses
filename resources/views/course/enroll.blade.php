@@ -57,7 +57,9 @@
                 </div>
                 
             </div>
+
             <button class="btn btn-success float-end">Enroll</button>
+
         </form>
        
         

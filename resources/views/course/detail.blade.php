@@ -9,6 +9,8 @@
                 <div class="card h-100 ">
                   
                     <img src="{{asset($details->image_path)}}" class="h-50 card-img p-4">
+
+                    @if (!$isEnrolled)
                     <div class="card-body">
                       
                         <h5 class="card-title">
@@ -20,7 +22,7 @@
                         @csrf
                         <div class="row">
                             @for ($i = 1; $i <= 20; $i++) 
-                                @php $disabled = in_array($i, $seatNumbers->pluck('seat_number')->toArray()) ? 'disabled' : '' @endphp
+                                @php $disabled = in_array($i, $enrolledSeatNumbers->pluck('seat_number')->toArray()) ? 'disabled' : '' @endphp
                                 <div class="col-3">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" name="seat" value="{{$i}}" {{$disabled}}>
@@ -33,6 +35,13 @@
                       </form>
 
                     </div>
+                        
+                  @else
+                           <div class="card-header text-center bg-primary m-4 text-dark fs-5">You already enrolled!!!</div>
+                        
+                        
+                    @endif
+                    
 
                     
                   
