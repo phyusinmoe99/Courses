@@ -39,9 +39,16 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        @auth
                         <li class="nav-item">
-                            <a href="{{url('/courses/enroll-dashbord')}}" class="nav-link text-info fw-bold fs-5">Enroll Dashbord</a>
-                        </li>
+                            @if (Auth::user()->isAdmin)
+                            <a href="{{url('/admin/dashbord')}}" class="nav-link text-info fw-bold fs-5">Dashbord</a>
+                            @else
+                            <a href="{{url('/courses/enroll-dashbord')}}" class="nav-link text-info fw-bold fs-5">Dashbord</a>
+                            @endif
+                        </li> 
+                        @endauth
+                        
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">

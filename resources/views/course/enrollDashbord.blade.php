@@ -30,12 +30,16 @@
                                     
                                 }
                             @endphp
-                            <a href="{{ url('/courses/enroll-dashbord?eid=' . $enroll->id . '&validator=' . $enroll->payment_validator) }}" 
+                            <span class="badge rounded-pill" style="background-color: {{ $enroll->payment_validator ? 'green' : 'lightcoral' }}">{{$valid}}</span>
+
+                            {{-- <a href="{{ url('/courses/enroll-dashbord?eid=' . $enroll->id . '&validator=' . $enroll->payment_validator) }}" 
                                 class="btn btn-dark" 
                                 style="background-color: {{ $enroll->payment_validator ? 'green' : 'lightcoral' }}" 
                                 {{ $enroll->payment_validator ? 'disabled' : '' }}>
                                 {{ $valid }}
-                             </a>
+                             </a> --}}
+
+
                              
                         </li>
                     </div>

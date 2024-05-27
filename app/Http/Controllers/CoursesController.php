@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Courses;
+use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,10 +17,10 @@ class CoursesController extends Controller
     public function index(Request $request){
         $title = $request->query('title');
 
-        if ($title == "all" || "null") {
-            $data = Courses::all();
+        if ($title == "all" || $title == null) {
+            $data = Course::all();
         }else{
-            $data = Courses::where('type', $title)->get();
+            $data = Course::where('type', $title)->get();
         }
 
         return view('course.index',['courses'=> $data ]);
@@ -30,26 +29,20 @@ class CoursesController extends Controller
     //for detail page 
     public function detail($id){
 
-        $data = Courses::find($id);
+        $data = Course::find($id);
         $enrolledSeatNumbers = Enrollment::where('course_id' , $id)->get();
         $enrolled = $enrolledSeatNumbers->count();
         $availableSeats = 20 - $enrolled;
             if(auth()->check()){
                 $isEnrolled = Enrollment::where('course_id' , $id )
                 ->where('user_id' , auth()->user()->id)->exists();
-                
-                
             
             }else{
                 $isEnrolled =false ;
             }
 
             return view('course.detail', ['details' => $data , 'availableSeats' => $availableSeats , 'enrolledSeatNumbers' => $enrolledSeatNumbers,'isEnrolled' => $isEnrolled]);
-       
-             
-        
-
-        
+           
     }
 
     public function enroll($courseId){
@@ -62,9 +55,9 @@ class CoursesController extends Controller
             return back()->withErrors($validator);
         }
         $seatValue = request()->input('seat');
-        $courseTitle = Courses::find($courseId);
+        $courseData = Course::find($courseId);
                          
-        return view('course.enroll' , ['courseId' => $courseId,'courseTitle' => $courseTitle, 'seatValue'=> $seatValue]);
+        return view('course.enroll' , ['courseId' => $courseId,'courseData' => $courseData, 'seatValue'=> $seatValue]);
     }
     public function submit(){
 
@@ -89,28 +82,12 @@ class CoursesController extends Controller
         return redirect('/courses/enroll-dashbord');
     
     }
-    public function enrollDashbord(Request $request){
+    public function enrollDashbord(){
 
-      $eId = $request->query('eid');
-      $validator = $request->query('validator');
-
-      if($eId && !$validator && Gate::allows('payment-validator')){
-        $valid = Enrollment::find($eId);
-        $valid->payment_validator = 1 ;
-        $valid->save();
-
-      }
-
-      $logIn = auth()->user()->email;
-     
-      if ($logIn === "admin@gmail.com") {
-        $enrollData = Enrollment::all();
-        return view('course.enrollDashbord',['enrollData' => $enrollData]);
-      }else{
         $enrollData = Enrollment::where('user_id' , auth()->user()->id)->get();
         return view('course.enrollDashbord',['enrollData' => $enrollData]);
 
-      }
+      
 
       
       
@@ -137,19 +114,5 @@ class CoursesController extends Controller
         
         
     }
-    // public function paymentValidator(Request $request){
-
-    //     $eId = request()->query('eid');
-    //     $validator = request()->query('validator');
-
-    //     if (!$validator) {
-    //       $data = Enrollment::where('id' , $eId)->first();
-    //       $data->payment_validator = 1 ;
-    //       $data->save();
-    //       return back();
-    //     }
-
-    //     return back();
-
-    // }
+    
 }

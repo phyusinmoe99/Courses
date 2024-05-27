@@ -14,7 +14,7 @@
                 <label class="col-sm-2 col-form-label">Course</label>
                 <div class="col-sm-10">
                     
-                    <input type="text" name="courseName" class="form-control" value="{{$courseTitle->title}}" disabled>
+                    <input type="text" name="courseName" class="form-control" value="{{$courseData->title}}" disabled>
                 </div>
                 
             </div>
