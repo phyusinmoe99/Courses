@@ -23,8 +23,9 @@ class AdminDashbordController extends Controller
     public function delete($id){
         
         $data = Course::find($id);
+        $courseName = Course::where('id' , $id)->pluck('title')->first();
         $data->delete();
-        return redirect("/admin/dashbord");
+        return redirect("/admin/dashbord")->with('info' , "$courseName is deleted!");
 
         
     }
@@ -60,7 +61,7 @@ class AdminDashbordController extends Controller
         ]);
 
         if($validator->fails()){
-            return back()->withErrors($validator);
+            return back()->withErrors($validator)->withInput();
         }
 
         $course = new Course;
@@ -102,7 +103,7 @@ class AdminDashbordController extends Controller
         $search = $request->search;
 
         if($validator->fails()){
-            return back()->withErrors($validator);
+            return back()->withErrors($validator)->withInput();
         }
 
         switch ($searchBy) {

@@ -10,6 +10,15 @@
                 
                 <img src='{{asset("storage/$details->image_path")}}' class="h-50 card-img p-4">
 
+                @if ($errors->any())
+                <div class="alert alert-warning">
+                    @foreach ($errors->all() as $err )
+                        {{$err}}
+                    @endforeach
+                </div>
+                    
+                @endif
+
                 @if (!$isEnrolled)
                 <div class="card-body">
 

@@ -3,6 +3,14 @@
 @section('content')
 
     <div class="container">
+        @if ($errors->any())
+                <div class="alert alert-warning">
+                    @foreach ($errors->all() as $err )
+                        {{$err}}
+                    @endforeach
+                </div>
+                    
+        @endif
         
         <form method="POST" action="{{url("/courses/enroll/{$courseId}")}}">
             @csrf

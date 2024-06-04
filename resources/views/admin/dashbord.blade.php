@@ -2,6 +2,11 @@
 
 @section('adminContent')
 <div class="container">
+    @if(session('info'))
+    <div class="alert alert-info">
+        {{session('info')}}
+    </div>
+    @endif
     <table class="table">
         <tr>
             <th>Id</th>

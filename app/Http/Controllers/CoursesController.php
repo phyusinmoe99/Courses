@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\MessageBag;
 
 class CoursesController extends Controller
 {
@@ -66,9 +66,15 @@ class CoursesController extends Controller
             "payment" => "required",
 
         ]);
+         //need to rewrite
         if($validator->fails()){
             return back()->withErrors($validator);
         }
+        
+        // if ($validator->fails()) {
+        //     $errors = new MessageBag($validator->errors()->all());
+        //     return view('course.enroll', ['errors' => $errors]);
+        // }
         
         $enrollment = new Enrollment();
         $enrollment->user_id = request()->userId;
