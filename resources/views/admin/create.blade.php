@@ -47,13 +47,13 @@
     <div class="row mb-3">
         <label class="col-form-label col-sm-2" for="content">Content</label>
         <div class="col-sm-10">
-            <textarea name="content" class="form-control" value="{{old('content')}}"></textarea>
+            <textarea name="content" class="form-control" >{{old('content')}}</textarea>
         </div>
     </div>
     <div class="row mb-3">
         <label class="col-form-label col-sm-2" for="outline">Course Outline</label>
         <div class="col-sm-10">
-            <textarea name="outline" class="form-control" value="{{old('outline')}}"></textarea>
+            <textarea name="outline" class="form-control" >{{old('outline')}}</textarea>
         </div>
     </div>
     <div class="row mb-3">

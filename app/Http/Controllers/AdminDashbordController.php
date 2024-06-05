@@ -84,50 +84,55 @@ class AdminDashbordController extends Controller
     }
     
     public function search(Request $request){
+          
+        
+         if ($request->isMethod('get')) { 
+             $data = Enrollment::all();
+             
+             return view('admin.studentsList' , ['enrolledData' => $data]); 
+       
+         }
+            $validator = validator($request->all() , [
+                'searchBy' => 'required',
+                'search' => 'required',
+             ]);
+     
+     
+             $searchBy = $request->searchBy;
+             $search = $request->search;
+            
+             
+     
+             if($validator->fails()){
+                 return back()->withErrors($validator)->withInput();
+             }
+     
+             switch ($searchBy) {
+                 case 'user_id':
+                   $data = Enrollment::where('user_id' , $search)->get();
+                   break;
+     
+                 case 'user_name':
+                     $data = Enrollment::wherehas('user' , function($query) use ($search){
+                         $query->where('name',$search);
+                     })->get();
+                     break;
+     
+                 case 'course_name':
+                      $data = Enrollment::wherehas('course' , function($query) use ($search){
+                             $query->where('title',$search);
+                         })->get();
+                      break;
+               
+             }
+     
+             //dd(var_dump($data));
+            
+             return view('admin.studentsList' , ['enrolledData' => $data ]);
+            
+
 
         
-        if ($request->isMethod('get')) {
-            $data = Enrollment::all();
-
-            return view('admin.studentsList' , ['enrolledData' => $data]);
-        }
-
-
-        $validator = validator($request->all() , [
-           'searchBy' => 'required',
-           'search' => 'required',
-        ]);
-
-
-        $searchBy = $request->searchBy;
-        $search = $request->search;
-
-        if($validator->fails()){
-            return back()->withErrors($validator)->withInput();
-        }
-
-        switch ($searchBy) {
-            case 'user_id':
-              $data = Enrollment::where('user_id' , $search)->get();
-              break;
-
-            case 'user_name':
-                $data = Enrollment::wherehas('user' , function($query) use ($search){
-                    $query->where('name',$search);
-                })->get();
-                break;
-
-            case 'course_name':
-                 $data = Enrollment::wherehas('course' , function($query) use ($search){
-                        $query->where('title',$search);
-                    })->get();
-                 break;
-          
-        }
-
-        // return view('admin.studentsList' , ['enrolledData' => $data, 
-        // 'oldInput' => $request->all()]);
-        return redirect('/admin/student-list')->withInput()->with(['enrolledData' => $data]);
     }
 
    
