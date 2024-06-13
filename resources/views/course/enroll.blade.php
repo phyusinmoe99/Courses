@@ -3,14 +3,14 @@
 @section('content')
 
     <div class="container">
-        @if ($errors->any())
+        {{-- @if ($errors->any())
                 <div class="alert alert-warning">
                     @foreach ($errors->all() as $err )
                         {{$err}}
                     @endforeach
                 </div>
                     
-        @endif
+        @endif --}}
         
         <form method="POST" action="{{url("/courses/enroll/{$courseId}")}}">
             @csrf
@@ -24,6 +24,7 @@
                     
                     <input type="text" name="courseName" class="form-control" value="{{$courseData->title}}" disabled>
                 </div>
+                
                 
             </div>
             

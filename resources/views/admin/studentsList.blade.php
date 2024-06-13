@@ -12,10 +12,10 @@
 <form method="post" class="mb-4" action="{{url("/admin/student-list")}}">
     @csrf
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <input placeholder="Search...." type="text" name="search" class="form-control" value="{{request()->input('search')}}">
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             {{-- <select name="searchBy" class="form-select" >
                 <option value="user_name" {{ $oldInput['searchBy'] && $oldInput['searchBy']== "user_name" ? 'selected' : '' ?? ''}}>Student Name</option>
                 <option value="user_id" {{ $oldInput['searchBy'] && $oldInput['searchBy']== "user_id" ? 'selected' : '' ?? ''}}>Student Id</option>
@@ -28,7 +28,7 @@
             </select>
 
         </div>
-        <div class="col">
+        <div class="col-sm-2">
             <button type="submit" class="btn btn-primary form-control">Search</button>
         </div>
 

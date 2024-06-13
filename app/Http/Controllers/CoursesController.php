@@ -59,7 +59,7 @@ class CoursesController extends Controller
                          
         return view('course.enroll' , ['courseId' => $courseId,'courseData' => $courseData, 'seatValue'=> $seatValue]);
     }
-    public function submit(){
+    public function submit($courseId){
 
         $validator = validator(request()->all() , [
             "phNumber" =>"required",
@@ -68,13 +68,9 @@ class CoursesController extends Controller
         ]);
          //need to rewrite
         if($validator->fails()){
-            return back()->withErrors($validator);
+        return back()->withErrors($validator);
         }
         
-        // if ($validator->fails()) {
-        //     $errors = new MessageBag($validator->errors()->all());
-        //     return view('course.enroll', ['errors' => $errors]);
-        // }
         
         $enrollment = new Enrollment();
         $enrollment->user_id = request()->userId;
